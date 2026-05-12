@@ -1,244 +1,436 @@
-
-<h2 class="sr-only">Redesigned homepage mockup for prolific.games with improved information architecture and prominent active games</h2>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prolific — Redesign Prototype</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
+:root {
+  --bg-page: #f5f4f1;
+  --bg-card: #ffffff;
+  --bg-surface: #f0eeea;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-tertiary: #9a9a9a;
+  --border-light: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.15);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --green: #639922;
+  --green-dark: #3B6D11;
+  --green-bg: #EAF3DE;
+  --green-text: #3B6D11;
+  --purple: #534AB7;
+  --purple-bg: #EEEDFE;
+  --blue: #185FA5;
+  --blue-bg: #E6F1FB;
+  --coral: #993C1D;
+  --coral-bg: #FAECE7;
+  --pink-bg: #FBEAF0;
+  --pink: #993556;
+  --amber-bg: #FAEEDA;
+  --amber: #854F0B;
+  --red-bg: #FCEBEB;
+  --red: #A32D2D;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page: #1a1a1a;
+    --bg-card: #252525;
+    --bg-surface: #2a2a2a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #999;
+    --text-tertiary: #666;
+    --border-light: rgba(255,255,255,0.08);
+    --border-mid: rgba(255,255,255,0.15);
+    --purple-bg: #2e2a4a;
+    --blue-bg: #1a2e45;
+    --coral-bg: #3a2218;
+    --pink-bg: #3a1a28;
+    --amber-bg: #3a2a10;
+    --green-bg: #1a2a0a;
+    --red-bg: #3a1818;
+  }
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-.pg { font-family: var(--font-sans); color: var(--color-text-primary); max-width: 680px; padding: 1rem 0; }
-.nav { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 24px; }
-.logo { font-size: 22px; font-weight: 500; color: var(--color-text-primary); letter-spacing: -0.5px; }
-.logo i { color: #639922; margin-right: 4px; font-size: 20px; }
-.nav-links { display: flex; gap: 12px; margin-left: auto; }
-.nav-links a { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 4px 8px; border-radius: var(--border-radius-md); }
-.nav-links a:hover { background: var(--color-background-secondary); }
-.nav-links a.active { color: var(--color-text-primary); font-weight: 500; }
-.user-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); padding: 4px 10px; border: 0.5px solid var(--color-border-tertiary); border-radius: 20px; }
-.user-pill .avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--color-background-info); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--color-text-info); }
+body { font-family: var(--font); background: var(--bg-page); color: var(--text-primary); line-height: 1.5; }
 
-.hero-banner { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; }
-.hero-text h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
-.hero-text p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.5; }
-.watchword { display: inline-flex; align-items: center; gap: 6px; background: #EAF3DE; color: #3B6D11; padding: 6px 14px; border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; letter-spacing: 2px; margin-top: 8px; }
-.daily-badge { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 3px 8px; border-radius: var(--border-radius-md); font-weight: 500; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-.section-label { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.section-label .count { background: var(--color-background-info); color: var(--color-text-info); font-size: 11px; padding: 2px 8px; border-radius: 10px; }
-.live-dot { width: 8px; height: 8px; background: #639922; border-radius: 50%; display: inline-block; animation: pulse 2s ease infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+/* Top nav */
+.top-bar { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 0.5px solid var(--border-light); margin-bottom: 24px; }
+.logo { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.logo-icon { width: 32px; height: 32px; background: #5d4e6d; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; }
+.nav-links { display: flex; gap: 4px; margin-left: auto; }
+.nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); transition: all 0.15s; }
+.nav-links a:hover { background: var(--bg-surface); color: var(--text-primary); }
+.nav-links a.act { color: var(--text-primary); font-weight: 500; background: var(--bg-surface); }
+.user-chip { display: flex; align-items: center; gap: 8px; padding: 5px 14px 5px 5px; border: 0.5px solid var(--border-mid); border-radius: 24px; font-size: 14px; cursor: pointer; transition: border-color 0.15s; }
+.user-chip:hover { border-color: var(--text-tertiary); }
+.user-chip .av { width: 28px; height: 28px; border-radius: 50%; background: var(--purple-bg); color: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
 
-.game-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 10px; display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: border-color 0.15s; }
-.game-card:hover { border-color: var(--color-border-secondary); }
-.game-card.featured { border: 2px solid var(--color-border-info); }
-.grid-preview { width: 56px; height: 56px; border-radius: 8px; display: grid; gap: 1px; padding: 4px; position: relative; }
-.grid-6 { grid-template-columns: repeat(6,1fr); grid-template-rows: repeat(6,1fr); background: #EEEDFE; }
-.grid-7 { grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(7,1fr); background: #E6F1FB; }
-.grid-10 { grid-template-columns: repeat(5,1fr); grid-template-rows: repeat(5,1fr); background: #FAECE7; }
-.grid-cell { background: rgba(255,255,255,0.7); border-radius: 1px; font-size: 5px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
-.game-info h3 { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
-.game-meta { font-size: 12px; color: var(--color-text-secondary); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-.game-meta .sep { color: var(--color-border-secondary); }
-.tag { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-weight: 500; }
-.tag-quick { background: #FCEBEB; color: #A32D2D; }
-.tag-normal { background: #E6F1FB; color: #185FA5; }
-.tag-waiting { background: #EAF3DE; color: #3B6D11; }
-.players { display: flex; align-items: center; }
-.players .p-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--color-background-primary); margin-left: -8px; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--color-text-secondary); overflow: hidden; }
-.players .p-avatar:first-child { margin-left: 0; }
-.players .p-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.join-btn { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); cursor: pointer; white-space: nowrap; }
-.join-btn:hover { background: var(--color-background-secondary); }
-.join-btn.primary { background: #639922; color: #fff; border-color: #639922; }
-.join-btn.primary:hover { background: #3B6D11; }
+/* Profile stats row */
+.profile-row { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+.profile-stats { display: flex; gap: 32px; flex: 1; }
+.ps { text-align: left; }
+.ps .pv { font-size: 22px; font-weight: 600; }
+.ps .pl { font-size: 12px; color: var(--text-secondary); }
+.ps .pl2 { font-size: 11px; color: var(--text-tertiary); }
+.action-btns { display: flex; gap: 8px; }
+.btn { padding: 10px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; cursor: pointer; border: none; font-family: var(--font); transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+.btn-primary { background: #5d4e6d; color: #fff; }
+.btn-primary:hover { background: #4a3d58; transform: translateY(-1px); }
+.btn-outline { background: var(--bg-card); border: 0.5px solid var(--border-mid); color: var(--text-primary); }
+.btn-outline:hover { background: var(--bg-surface); }
 
-.in-progress { opacity: 0.75; }
-.in-progress .game-info h3 { font-size: 14px; }
+/* Community strip */
+.community-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.strip-card { background: var(--bg-surface); border-radius: var(--radius-lg); padding: 16px 18px; }
+.strip-card .sc-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.strip-card .sc-value { font-size: 16px; font-weight: 600; }
+.strip-card .sc-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+.watchword-letters { letter-spacing: 4px; color: var(--purple); }
+.link { color: var(--blue); cursor: pointer; }
 
-.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
-.stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; text-align: center; }
-.stat-card .val { font-size: 20px; font-weight: 500; }
-.stat-card .lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-.stat-card .by { font-size: 11px; color: var(--color-text-info); margin-top: 4px; }
+/* Sections */
+.section { margin-bottom: 32px; }
+.section-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.section-hdr h2 { font-size: 16px; font-weight: 600; }
+.live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+.badge { font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 500; }
+.badge-green { background: var(--green-bg); color: var(--green-text); }
+.badge-gray { background: var(--bg-surface); color: var(--text-secondary); }
 
-.news-box { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 16px 20px; margin-bottom: 24px; }
-.news-box h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-.news-box p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+/* Game cards */
+.game-card { background: var(--bg-card); border: 0.5px solid var(--border-light); border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 52px minmax(0,1fr) auto; gap: 16px; align-items: center; cursor: pointer; transition: all 0.15s; }
+.game-card:hover { border-color: var(--border-mid); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.game-card.joinable { border-left: 3px solid var(--green); }
 
-.records-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-.records-tabs button { font-size: 12px; padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: transparent; color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-sans); }
-.records-tabs button.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+.grid-icon { width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+.gi-10 { background: var(--coral-bg); color: var(--coral); }
+.gi-6 { background: var(--purple-bg); color: var(--purple); }
+.gi-7 { background: var(--blue-bg); color: var(--blue); }
 
-.records-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.rec { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; }
-.rec .rec-val { font-size: 20px; font-weight: 500; }
-.rec .rec-unit { font-size: 12px; color: var(--color-text-secondary); }
-.rec .rec-lbl { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
-.rec .rec-by { font-size: 12px; color: var(--color-text-info); margin-top: 4px; }
+.game-info h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.game-meta { font-size: 13px; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.sep { color: var(--border-mid); }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: var(--radius-md); font-weight: 500; }
+.tag-quick { background: var(--red-bg); color: var(--red); }
+.tag-normal { background: var(--blue-bg); color: var(--blue); }
 
-.footer { border-top: 0.5px solid var(--color-border-tertiary); padding-top: 16px; margin-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-tertiary); }
+.player-row { display: flex; align-items: center; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+.p-av { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; border: 2px solid var(--bg-card); }
+.p-name { font-size: 12px; color: var(--text-secondary); margin-left: 4px; }
+.p-you { font-size: 10px; background: var(--purple-bg); color: var(--purple); padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 4px; }
+
+.game-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.join-btn { font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: var(--radius-md); border: none; cursor: pointer; font-family: var(--font); white-space: nowrap; transition: all 0.15s; }
+.join-btn.go { background: var(--green); color: #fff; }
+.join-btn.go:hover { background: var(--green-dark); transform: translateY(-1px); }
+.join-btn.watch { background: transparent; border: 0.5px solid var(--border-mid); color: var(--text-secondary); }
+.join-btn.watch:hover { background: var(--bg-surface); }
+.player-count { font-size: 13px; font-weight: 500; }
+.score-preview { font-size: 13px; color: var(--text-secondary); }
+.score-preview strong { color: var(--text-primary); font-weight: 500; }
+.finished-tag { font-size: 11px; color: var(--text-tertiary); }
+
+.recent-section .game-card { opacity: 0.85; }
+.recent-section .game-card:hover { opacity: 1; }
+
+/* Expandable records */
+.record-category { background: var(--bg-card); border: 0.5px solid var(--border-light); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; transition: all 0.2s; }
+.record-category:hover { border-color: var(--border-mid); }
+.rec-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; padding: 14px 18px; cursor: pointer; gap: 12px; }
+.rec-header .rec-title { font-size: 13px; color: var(--text-secondary); }
+.rec-header .rec-top { display: flex; align-items: baseline; gap: 6px; }
+.rec-header .rec-top .rv { font-size: 20px; font-weight: 600; }
+.rec-header .rec-top .ru { font-size: 12px; color: var(--text-secondary); }
+.rec-header .rec-top .rb { font-size: 12px; color: var(--blue); margin-left: 4px; }
+.rec-header .expand-icon { font-size: 16px; color: var(--text-tertiary); transition: transform 0.2s; }
+.record-category.open .expand-icon { transform: rotate(180deg); }
+.rec-list { display: none; border-top: 0.5px solid var(--border-light); }
+.record-category.open .rec-list { display: block; }
+.rec-row { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; padding: 10px 18px; gap: 10px; font-size: 13px; border-bottom: 0.5px solid var(--border-light); }
+.rec-row:last-child { border-bottom: none; }
+.rec-row:hover { background: var(--bg-surface); }
+.rec-rank { font-weight: 600; color: var(--text-tertiary); text-align: center; font-size: 12px; }
+.rec-rank.gold { color: var(--amber); }
+.rec-rank.silver { color: var(--text-secondary); }
+.rec-rank.bronze { color: var(--coral); }
+.rec-player { color: var(--text-primary); }
+.rec-player a { color: var(--blue); text-decoration: none; }
+.rec-player a:hover { text-decoration: underline; }
+.rec-score { font-weight: 500; text-align: right; white-space: nowrap; }
+.rec-you { font-size: 10px; background: var(--purple-bg); color: var(--purple); padding: 1px 6px; border-radius: 8px; font-weight: 600; margin-left: 6px; }
+
+.tabs { display: flex; gap: 6px; margin-left: auto; }
+.tab { font-size: 12px; padding: 5px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border-light); background: transparent; color: var(--text-secondary); cursor: pointer; font-family: var(--font); transition: all 0.15s; }
+.tab:hover { background: var(--bg-surface); }
+.tab.on { background: var(--text-primary); color: var(--bg-page); border-color: transparent; }
+
+/* News callout */
+.news-callout { background: var(--bg-surface); border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 28px; }
+.news-callout h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.news-callout p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+.footer { border-top: 0.5px solid var(--border-light); padding: 20px 0; margin-top: 32px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-tertiary); }
+.footer a { color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
+.footer a:hover { color: var(--text-secondary); }
 </style>
+</head>
+<body>
 
-<div class="pg">
+<div class="container">
 
-<nav class="nav">
-  <div class="logo"><i class="ti ti-letter-p" aria-hidden="true"></i>Prolific</div>
+<nav class="top-bar">
+  <div class="logo"><div class="logo-icon">P</div> Prolific</div>
   <div class="nav-links">
-    <a href="#" class="active">Games</a>
+    <a href="#" class="act">Games</a>
     <a href="#">Tournaments</a>
     <a href="#">Leaderboard</a>
     <a href="#">Rules</a>
     <a href="#">FAQ</a>
   </div>
-  <div class="user-pill">
-    <div class="avatar">MB</div>
-    Matt
-  </div>
+  <div class="user-chip"><div class="av">MB</div> Matt</div>
 </nav>
 
-<div class="hero-banner">
-  <div class="hero-text">
-    <h1>Find words. Outscore everyone.</h1>
-    <p>Build English words from adjacent letters in a grid. Longer words score more. Today's watchword:</p>
-    <div class="watchword"><i class="ti ti-sparkles" style="font-size:14px" aria-hidden="true"></i> MANIFOLD</div>
+<div class="profile-row">
+  <div class="profile-stats">
+    <div class="ps"><div class="pv">1,039</div><div class="pl">Rating (23rd)</div></div>
+    <div class="ps"><div class="pv">72,904</div><div class="pl">Games played</div><div class="pl2">28% won · 71% lost</div></div>
+    <div class="ps"><div class="pv">2013</div><div class="pl">Playing since</div></div>
   </div>
-  <div style="margin-left:auto; text-align:right;">
-    <span class="daily-badge"><i class="ti ti-calendar" style="font-size:12px" aria-hidden="true"></i> Daily special</span>
-    <p style="font-size:12px; color:var(--color-text-secondary); margin-top:6px;">Submit your own recipe →</p>
-  </div>
-</div>
-
-<div class="section-label"><span class="live-dot"></span> Open games — join now <span class="count">3 waiting</span></div>
-
-<div class="game-card featured">
-  <div class="grid-preview grid-6"></div>
-  <div class="game-info">
-    <h3>deforces</h3>
-    <div class="game-meta">
-      <span class="tag tag-normal">6×6</span>
-      <span class="sep">·</span> 3 min
-      <span class="sep">·</span> 5+ letters
-      <span class="sep">·</span> no penalty
-    </div>
-  </div>
-  <div style="text-align:right;">
-    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
-      <div class="p-avatar" style="background:#E6F1FB; color:#185FA5;">SL</div>
-    </div>
-    <button class="join-btn primary">Join game</button>
+  <div class="action-btns">
+    <button class="btn btn-primary"><i class="ti ti-plus" style="font-size:16px;" aria-hidden="true"></i> New game</button>
+    <button class="btn btn-outline"><i class="ti ti-user" style="font-size:16px;" aria-hidden="true"></i> Solo</button>
   </div>
 </div>
 
-<div class="game-card featured">
-  <div class="grid-preview grid-7"></div>
-  <div class="game-info">
-    <h3>decorates</h3>
-    <div class="game-meta">
-      <span class="tag tag-quick">7×7 quick</span>
-      <span class="sep">·</span> 45 sec
-      <span class="sep">·</span> 6+ letters
-    </div>
+<div class="community-strip">
+  <div class="strip-card">
+    <div class="sc-label"><i class="ti ti-sparkles" style="font-size:14px" aria-hidden="true"></i> Watchword</div>
+    <div class="sc-value watchword-letters">MANIFOLD</div>
+    <div class="sc-sub">Find it in a game to pick the next one</div>
   </div>
-  <div style="text-align:right;">
-    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
-      <div class="p-avatar" style="background:#EEEDFE; color:#534AB7;">VV</div>
-    </div>
-    <button class="join-btn primary">Join game</button>
+  <div class="strip-card">
+    <div class="sc-label"><i class="ti ti-calendar" style="font-size:14px" aria-hidden="true"></i> Today's special</div>
+    <div class="sc-value">10×10, 4 min, 8+ letters</div>
+    <div class="sc-sub">by Isabelle G. · <span class="link">Add a recipe</span></div>
   </div>
 </div>
 
-<div class="game-card featured">
-  <div class="grid-preview grid-10"></div>
-  <div class="game-info">
-    <h3>railroaded</h3>
-    <div class="game-meta">
-      <span class="tag tag-normal">10×10</span>
-      <span class="sep">·</span> 4 min
-      <span class="sep">·</span> 8+ letters
-      <span class="sep">·</span> 1pt penalty
+<div class="section">
+  <div class="section-hdr">
+    <span class="live-dot"></span>
+    <h2>Active games — join now</h2>
+    <span class="badge badge-green">2 open</span>
+  </div>
+
+  <div class="game-card joinable">
+    <div class="grid-icon gi-10">10²</div>
+    <div class="game-info">
+      <h3>inconsideration</h3>
+      <div class="game-meta">
+        <span class="tag tag-normal">10×10</span> <span class="sep">·</span> 4 min <span class="sep">·</span> 8+ letters <span class="sep">·</span> 1pt penalty <span class="sep">·</span> original word count
+      </div>
+      <div class="player-row">
+        <div class="p-av" style="background:var(--coral-bg); color:var(--coral);">MP</div>
+        <div class="p-av" style="background:var(--green-bg); color:var(--green-text);">SA</div>
+        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">PM</div>
+        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">HH</div>
+        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">JM</div>
+        <div class="p-av" style="background:var(--amber-bg); color:var(--amber);">MB</div>
+        <span class="p-you">You're in</span>
+      </div>
+    </div>
+    <div class="game-right">
+      <span class="player-count" style="color:var(--green);">6 players</span>
+      <button class="join-btn go">Play</button>
     </div>
   </div>
-  <div style="text-align:right;">
-    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
-      <div class="p-avatar" style="background:#FAECE7; color:#993C1D;">MP</div>
-      <div class="p-avatar" style="background:#EAF3DE; color:#3B6D11;">CM</div>
-      <div class="p-avatar" style="background:#FAEEDA; color:#854F0B;">SA</div>
-      <div class="p-avatar" style="background:#FBEAF0; color:#993556;">HH</div>
-      <div class="p-avatar" style="background:#E6F1FB; color:#185FA5;">+2</div>
+
+  <div class="game-card joinable">
+    <div class="grid-icon gi-6">6²</div>
+    <div class="game-info">
+      <h3>deforces</h3>
+      <div class="game-meta">
+        <span class="tag tag-normal">6×6</span> <span class="sep">·</span> 3 min <span class="sep">·</span> 5+ letters <span class="sep">·</span> no penalty
+      </div>
+      <div class="player-row">
+        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">SL</div>
+        <span class="p-name">Stephanie Lowry</span>
+      </div>
     </div>
-    <button class="join-btn primary">Join game</button>
-  </div>
-</div>
-
-<div style="margin-top: 24px;"></div>
-<div class="section-label"><i class="ti ti-clock" style="font-size:15px" aria-hidden="true"></i> In progress</div>
-
-<div class="game-card in-progress">
-  <div class="grid-preview grid-10" style="opacity:0.6;"></div>
-  <div class="game-info">
-    <h3>hatlessnesses</h3>
-    <div class="game-meta">
-      <span class="tag tag-normal">10×10</span>
-      <span class="sep">·</span> 4 min
-      <span class="sep">·</span> 8+ letters
-      <span class="sep">·</span> 6 players
+    <div class="game-right">
+      <span class="player-count" style="color:var(--text-tertiary);">1 player waiting</span>
+      <button class="join-btn go">Join</button>
     </div>
   </div>
-  <div style="text-align:right;">
-    <div style="font-size:13px; font-weight:500;">PW leads — 19 pts</div>
-    <div style="font-size:11px; color:var(--color-text-secondary); margin-top:2px;">GW 16 · VV 8 · MP 5</div>
-    <button class="join-btn" style="margin-top:6px;">Watch</button>
+</div>
+
+<div class="section recent-section">
+  <div class="section-hdr">
+    <i class="ti ti-clock" style="font-size:16px; color:var(--text-secondary);" aria-hidden="true"></i>
+    <h2>Recently finished</h2>
+    <div class="tabs">
+      <button class="tab on">Recent</button>
+      <button class="tab">History</button>
+    </div>
+  </div>
+
+  <div class="game-card">
+    <div class="grid-icon gi-7" style="opacity:0.6;">7²</div>
+    <div class="game-info">
+      <h3>miscreation</h3>
+      <div class="game-meta">
+        <span class="tag tag-quick">7×7 quick</span> <span class="sep">·</span> 45 sec <span class="sep">·</span> 6+ letters
+      </div>
+      <div class="player-row">
+        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">VV</div>
+        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">PW</div>
+      </div>
+    </div>
+    <div class="game-right">
+      <div class="score-preview"><strong>VV 52</strong> · PW 46</div>
+      <span class="finished-tag">Finished 1 min ago</span>
+    </div>
+  </div>
+
+  <div class="game-card">
+    <div class="grid-icon gi-10" style="opacity:0.6;">10²</div>
+    <div class="game-info">
+      <h3>railroaded</h3>
+      <div class="game-meta">
+        <span class="tag tag-normal">10×10</span> <span class="sep">·</span> 4 min <span class="sep">·</span> 8+ letters <span class="sep">·</span> 1pt penalty
+      </div>
+      <div class="player-row">
+        <div class="p-av" style="background:var(--green-bg); color:var(--green-text);">SA</div>
+        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">JM</div>
+        <div class="p-av" style="background:var(--coral-bg); color:var(--coral);">CM</div>
+        <span class="p-name">+3 more</span>
+      </div>
+    </div>
+    <div class="game-right">
+      <div class="score-preview"><strong>SA 171</strong> · JM 41 · CM 31</div>
+      <span class="finished-tag">Finished 1 min ago</span>
+    </div>
+  </div>
+
+  <div class="game-card">
+    <div class="grid-icon gi-7" style="opacity:0.6;">7²</div>
+    <div class="game-info">
+      <h3>decorates</h3>
+      <div class="game-meta">
+        <span class="tag tag-quick">7×7 quick</span> <span class="sep">·</span> 45 sec <span class="sep">·</span> 6+ letters
+      </div>
+      <div class="player-row">
+        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">VV</div>
+        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">PW</div>
+      </div>
+    </div>
+    <div class="game-right">
+      <div class="score-preview"><strong>VV 44</strong> · PW 23</div>
+      <span class="finished-tag">3 min ago</span>
+    </div>
   </div>
 </div>
 
-<div style="margin-top: 28px;"></div>
-<div class="section-label"><i class="ti ti-trophy" style="font-size:15px" aria-hidden="true"></i> Top plays this month</div>
+<div class="section">
+  <div class="section-hdr">
+    <i class="ti ti-trophy" style="font-size:16px; color:var(--text-secondary);" aria-hidden="true"></i>
+    <h2>Top plays this month</h2>
+    <div class="tabs">
+      <button class="tab on">All</button>
+      <button class="tab">Quick</button>
+      <button class="tab">10×10</button>
+      <button class="tab">3D</button>
+      <button class="tab">4×4</button>
+      <button class="tab">5×5</button>
+      <button class="tab">6×6</button>
+      <button class="tab">7×7</button>
+    </div>
+  </div>
 
-<div class="records-tabs">
-  <button class="sel">All</button>
-  <button>Quick</button>
-  <button>10×10</button>
-  <button>3D</button>
-  <button>4×4</button>
-  <button>5×5</button>
-  <button>6×6</button>
-  <button>7×7</button>
+  <div id="records-container"></div>
 </div>
 
-<div class="records-grid">
-  <div class="rec">
-    <div><span class="rec-val">127</span> <span class="rec-unit">points</span></div>
-    <div class="rec-lbl">Highest points</div>
-    <div class="rec-by">Stuart Forrest</div>
-  </div>
-  <div class="rec">
-    <div><span class="rec-val">108</span> <span class="rec-unit">pts lead</span></div>
-    <div class="rec-lbl">Biggest lead</div>
-    <div class="rec-by">Stuart Forrest</div>
-  </div>
-  <div class="rec">
-    <div><span class="rec-val">14</span> <span class="rec-unit">letters</span></div>
-    <div class="rec-lbl">Longest word</div>
-    <div class="rec-by">Steven Michael</div>
-  </div>
-  <div class="rec">
-    <div><span class="rec-val">15</span> <span class="rec-unit">points</span></div>
-    <div class="rec-lbl">Highest scoring word</div>
-    <div class="rec-by">Steven Michael</div>
-  </div>
-  <div class="rec">
-    <div><span class="rec-val">15</span> <span class="rec-unit">words</span></div>
-    <div class="rec-lbl">Most words</div>
-    <div class="rec-by">Deb F</div>
-  </div>
-</div>
+<script>
+const categories = [
+  { title:'Highest points', unit:'pts', entries:[
+    {p:'Sam August',v:'171'},{p:'Jonathan Lee',v:'165'},{p:'Stuart Forrest',v:'158'},
+    {p:'Jeff Babiak',v:'152'},{p:'Benjamin Dickman',v:'149'},{p:'Darren Chok',v:'144'},
+    {p:'Steven Michael',v:'141'},{p:'Isabelle Gateau',v:'136'},{p:'Phyllis Wheeler',v:'131'},
+    {p:'Valerie Vanderford',v:'127'},{p:'Malcolm Pellettier',v:'122'},{p:'Edwin Marks',v:'118'},
+    {p:'Deb F',v:'114'},{p:'Jason Taff',v:'110'},{p:'Patty Bush',v:'106'},
+    {p:'Matt Burry',v:'103',you:1},{p:'Helen Holloway',v:'99'},{p:'Cassie M',v:'95'},
+    {p:'John McVay',v:'91'},{p:'Stephanie Lowry',v:'87'}
+  ]},
+  { title:'Biggest lead', unit:'pt lead', entries:[
+    {p:'Sam August',v:'130'},{p:'Jonathan Lee',v:'118'},{p:'Stuart Forrest',v:'112'},
+    {p:'Benjamin Dickman',v:'105'},{p:'Steven Michael',v:'98'},{p:'Jeff Babiak',v:'94'},
+    {p:'Darren Chok',v:'88'},{p:'Isabelle Gateau',v:'82'},{p:'Phyllis Wheeler',v:'76'},
+    {p:'Matt Burry',v:'71',you:1},{p:'Valerie Vanderford',v:'68'},{p:'Edwin Marks',v:'63'},
+    {p:'Malcolm Pellettier',v:'59'},{p:'Deb F',v:'55'},{p:'Helen Holloway',v:'51'},
+    {p:'Jason Taff',v:'47'},{p:'Patty Bush',v:'43'},{p:'Cassie M',v:'39'},
+    {p:'John McVay',v:'35'},{p:'Stephanie Lowry',v:'31'}
+  ]},
+  { title:'Longest word', unit:'letters', entries:[
+    {p:'Steven Michael',v:'14'},{p:'Edwin Marks',v:'13'},{p:'Isabelle Gateau',v:'12'},
+    {p:'Jason Taff',v:'12'},{p:'Jeff Babiak',v:'11'},{p:'Jonathan Lee',v:'11'},
+    {p:'Sam August',v:'11'},{p:'Benjamin Dickman',v:'10'},{p:'Phyllis Wheeler',v:'10'},
+    {p:'Darren Chok',v:'10'},{p:'Stuart Forrest',v:'10'},{p:'Valerie Vanderford',v:'9'},
+    {p:'Matt Burry',v:'9',you:1},{p:'Malcolm Pellettier',v:'9'},{p:'Deb F',v:'9'},
+    {p:'Helen Holloway',v:'8'},{p:'Patty Bush',v:'8'},{p:'Cassie M',v:'8'},
+    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+  ]},
+  { title:'Best single word', unit:'pts', entries:[
+    {p:'Steven Michael',v:'15'},{p:'Jeff Babiak',v:'15'},{p:'Edwin Marks',v:'14'},
+    {p:'Isabelle Gateau',v:'14'},{p:'Jonathan Lee',v:'13'},{p:'Sam August',v:'13'},
+    {p:'Benjamin Dickman',v:'12'},{p:'Phyllis Wheeler',v:'12'},{p:'Darren Chok',v:'11'},
+    {p:'Jason Taff',v:'11'},{p:'Matt Burry',v:'11',you:1},{p:'Stuart Forrest',v:'10'},
+    {p:'Valerie Vanderford',v:'10'},{p:'Malcolm Pellettier',v:'10'},{p:'Deb F',v:'9'},
+    {p:'Helen Holloway',v:'9'},{p:'Patty Bush',v:'9'},{p:'Cassie M',v:'8'},
+    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+  ]},
+  { title:'Most words', unit:'words', entries:[
+    {p:'Sam August',v:'19'},{p:'Darren Chok',v:'18'},{p:'Jonathan Lee',v:'17'},
+    {p:'Jeff Babiak',v:'16'},{p:'Benjamin Dickman',v:'15'},{p:'Deb F',v:'15'},
+    {p:'Stuart Forrest',v:'14'},{p:'Steven Michael',v:'14'},{p:'Isabelle Gateau',v:'13'},
+    {p:'Phyllis Wheeler',v:'13'},{p:'Valerie Vanderford',v:'12'},{p:'Matt Burry',v:'12',you:1},
+    {p:'Edwin Marks',v:'11'},{p:'Malcolm Pellettier',v:'11'},{p:'Jason Taff',v:'10'},
+    {p:'Patty Bush',v:'10'},{p:'Helen Holloway',v:'9'},{p:'Cassie M',v:'9'},
+    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+  ]}
+];
+const rc = i => i===0?'gold':i===1?'silver':i===2?'bronze':'';
+let h = '';
+categories.forEach(cat => {
+  const t = cat.entries[0];
+  h += `<div class="record-category"><div class="rec-header" onclick="this.parentElement.classList.toggle('open')"><div class="rec-title">${cat.title}</div><div class="rec-top"><span class="rv">${t.v}</span><span class="ru">${cat.unit}</span><span class="rb">${t.p}</span></div><i class="ti ti-chevron-down expand-icon"></i></div><div class="rec-list">`;
+  cat.entries.forEach((e,i) => {
+    h += `<div class="rec-row"><div class="rec-rank ${rc(i)}">${i+1}</div><div class="rec-player"><a href="#">${e.p}</a>${e.you?'<span class="rec-you">You</span>':''}</div><div class="rec-score">${e.v} ${cat.unit}</div></div>`;
+  });
+  h += '</div></div>';
+});
+document.getElementById('records-container').innerHTML = h;
+</script>
 
-<div style="margin-top: 24px;"></div>
-<div class="news-box">
-  <h3><i class="ti ti-speakerphone" style="font-size:15px; margin-right:6px;" aria-hidden="true"></i>What's new</h3>
+<div class="news-callout">
+  <h3><i class="ti ti-speakerphone" style="font-size:16px;" aria-hidden="true"></i> What's new</h3>
   <p>Design your own game recipe and have it featured as the daily special for all players. Also try spotting the watchword in your games — find it to earn a mention and pick the next one. Details in the FAQ.</p>
 </div>
 
-<div class="footer">
+<footer class="footer">
   <span>Prolific — word games for wordsmiths</span>
-  <span><a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">Donate</a> · <a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">Forum</a> · <a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">FAQ</a></span>
-</div>
+  <span><a href="#">Invite</a> · <a href="#">Donate</a> · <a href="#">Forum</a> · <a href="#">Log out</a></span>
+</footer>
 
 </div>
+
+</body>
+</html>
