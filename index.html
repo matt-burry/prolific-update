@@ -115,6 +115,8 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
 .gi-10 { background: var(--coral-bg); color: var(--coral); }
 .gi-6 { background: var(--purple-bg); color: var(--purple); }
 .gi-7 { background: var(--blue-bg); color: var(--blue); }
+.gi-5 { background: var(--green-bg); color: var(--green-text); }
+.gi-4 { background: var(--amber-bg); color: var(--amber); }
 
 .game-info h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
 .game-meta { font-size: 13px; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
@@ -157,18 +159,24 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
 .record-category.open .expand-icon { transform: rotate(180deg); }
 .rec-list { display: none; border-top: 0.5px solid var(--border-light); }
 .record-category.open .rec-list { display: block; }
-.rec-row { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; padding: 10px 18px; gap: 10px; font-size: 13px; border-bottom: 0.5px solid var(--border-light); }
+.rec-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: start; padding: 11px 18px; gap: 10px; font-size: 13px; border-bottom: 0.5px solid var(--border-light); }
 .rec-row:last-child { border-bottom: none; }
 .rec-row:hover { background: var(--bg-surface); }
-.rec-rank { font-weight: 600; color: var(--text-tertiary); text-align: center; font-size: 12px; }
+.rec-rank { font-weight: 600; color: var(--text-tertiary); text-align: center; font-size: 12px; padding-top: 2px; }
 .rec-rank.gold { color: var(--amber); }
 .rec-rank.silver { color: var(--text-secondary); }
 .rec-rank.bronze { color: var(--coral); }
-.rec-player { color: var(--text-primary); }
-.rec-player a { color: var(--blue); text-decoration: none; }
-.rec-player a:hover { text-decoration: underline; }
-.rec-score { font-weight: 500; text-align: right; white-space: nowrap; }
-.rec-you { font-size: 10px; background: var(--purple-bg); color: var(--purple); padding: 1px 6px; border-radius: 8px; font-weight: 600; margin-left: 6px; }
+.rec-main { display: flex; flex-direction: column; gap: 2px; }
+.rec-name { font-weight: 500; color: var(--text-primary); }
+.rec-you { font-size: 10px; background: var(--purple-bg); color: var(--purple); padding: 1px 6px; border-radius: 8px; font-weight: 600; margin-left: 4px; }
+.rec-detail { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.rec-detail .sep { margin: 0 5px; color: var(--border-mid); }
+.rec-word { font-style: italic; color: var(--text-tertiary); }
+.rec-grid { color: var(--text-secondary); }
+.rec-date { color: var(--text-tertiary); }
+.rec-view { color: var(--blue); text-decoration: none; margin-left: 2px; display: inline-flex; align-items: center; gap: 3px; }
+.rec-view:hover { text-decoration: underline; }
+.rec-score { font-weight: 500; text-align: right; white-space: nowrap; padding-top: 2px; }
 
 .tabs { display: flex; gap: 6px; margin-left: auto; }
 .tab { font-size: 12px; padding: 5px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border-light); background: transparent; color: var(--text-secondary); cursor: pointer; font-family: var(--font); transition: all 0.15s; }
@@ -265,7 +273,6 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
       </div>
       <div class="player-row">
         <div class="p-av" data-name="Stephanie Lowry" style="background:var(--blue-bg); color:var(--blue);">SL</div>
-        <span class="p-name">Stephanie Lowry</span>
       </div>
     </div>
     <div class="game-right">
@@ -280,8 +287,8 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
     <i class="ti ti-clock" style="font-size:16px; color:var(--text-secondary);" aria-hidden="true"></i>
     <h2>Recently finished</h2>
     <div class="tabs">
-      <button class="tab on">Recent</button>
-      <button class="tab">History</button>
+      <button class="tab hist-tab on" data-t="recent">Recent</button>
+      <button class="tab hist-tab" data-t="history">History</button>
     </div>
   </div>
 
@@ -362,64 +369,157 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
 </div>
 
 <script>
+// ── Recent / History tab data ──
+const recentGamesHTML = document.querySelector('.recent-section').innerHTML;
+const myHistory = [
+  {word:'prerequisite',grid:'10×10',tag:'tag-normal',gi:'gi-10',time:'4 min',rules:'8+ letters · 1pt penalty',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Sam August',i:'SA',bg:'--green-bg',fg:'--green-text'},{n:'Jonathan Lee',i:'JL',bg:'--blue-bg',fg:'--blue'},{n:'Deb F',i:'DF',bg:'--coral-bg',fg:'--coral'}],
+   score:'SA 142 · <strong>MB 118</strong> · JL 95 · DF 71', when:'2 hours ago', result:'2nd of 4'},
+  {word:'brightness',grid:'7×7',tag:'tag-quick',gi:'gi-7',time:'45 sec',rules:'6+ letters',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Valerie Vanderford',i:'VV',bg:'--purple-bg',fg:'--purple'}],
+   score:'<strong>MB 38</strong> · VV 29', when:'5 hours ago', result:'Won'},
+  {word:'documentary',grid:'10×10',tag:'tag-normal',gi:'gi-10',time:'4 min',rules:'8+ letters · original word count',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Stuart Forrest',i:'SF',bg:'--green-bg',fg:'--green-text'},{n:'Jeff Babiak',i:'JB',bg:'--coral-bg',fg:'--coral'}],
+   score:'SF 158 · JB 131 · <strong>MB 103</strong>', when:'Yesterday', result:'3rd of 3'},
+  {word:'goldfinch',grid:'7×7',tag:'tag-quick',gi:'gi-7',time:'45 sec',rules:'6+ letters',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Phyllis Wheeler',i:'PW',bg:'--pink-bg',fg:'--pink'}],
+   score:'PW 44 · <strong>MB 41</strong>', when:'Yesterday', result:'2nd of 2'},
+  {word:'capsule',grid:'6×6',tag:'tag-normal',gi:'gi-6',time:'3 min',rules:'5+ letters · no penalty',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Helen Holloway',i:'HH',bg:'--pink-bg',fg:'--pink'},{n:'Malcolm Pellettier',i:'MP',bg:'--coral-bg',fg:'--coral'}],
+   score:'<strong>MB 67</strong> · HH 52 · MP 38', when:'2 days ago', result:'Won'},
+  {word:'overlooking',grid:'10×10',tag:'tag-normal',gi:'gi-10',time:'4 min',rules:'8+ letters · 1pt penalty',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Sam August',i:'SA',bg:'--green-bg',fg:'--green-text'},{n:'Benjamin Dickman',i:'BD',bg:'--blue-bg',fg:'--blue'},{n:'Jason Taff',i:'JT',bg:'--purple-bg',fg:'--purple'},{n:'Edwin Marks',i:'EM',bg:'--coral-bg',fg:'--coral'}],
+   score:'SA 171 · BD 149 · <strong>MB 103</strong> · JT 88 · EM 72', when:'3 days ago', result:'3rd of 5'},
+  {word:'stumble',grid:'5×5',tag:'tag-normal',gi:'gi-5',time:'2 min',rules:'4+ letters',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Stephanie Lowry',i:'SL',bg:'--blue-bg',fg:'--blue'}],
+   score:'<strong>MB 31</strong> · SL 18', when:'4 days ago', result:'Won'},
+  {word:'transplant',grid:'10×10',tag:'tag-normal',gi:'gi-10',time:'4 min',rules:'8+ letters · 1pt penalty',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Darren Chok',i:'DC',bg:'--green-bg',fg:'--green-text'},{n:'Isabelle Gateau',i:'IG',bg:'--pink-bg',fg:'--pink'}],
+   score:'DC 144 · IG 136 · <strong>MB 97</strong>', when:'5 days ago', result:'3rd of 3'},
+  {word:'reflections',grid:'7×7',tag:'tag-quick',gi:'gi-7',time:'45 sec',rules:'6+ letters',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Patty Bush',i:'PB',bg:'--coral-bg',fg:'--coral'},{n:'Cassie M',i:'CM',bg:'--purple-bg',fg:'--purple'}],
+   score:'<strong>MB 52</strong> · PB 39 · CM 28', when:'6 days ago', result:'Won'},
+  {word:'framework',grid:'10×10',tag:'tag-normal',gi:'gi-10',time:'4 min',rules:'8+ letters · original word count',
+   players:[{n:'Matt Burry (you)',i:'MB',bg:'--amber-bg',fg:'--amber'},{n:'Sam August',i:'SA',bg:'--green-bg',fg:'--green-text'},{n:'John McVay',i:'JM',bg:'--blue-bg',fg:'--blue'},{n:'Paul M',i:'PM',bg:'--purple-bg',fg:'--purple'}],
+   score:'SA 165 · <strong>MB 112</strong> · JM 91 · PM 55', when:'1 week ago', result:'2nd of 4'}
+];
+
+function renderHistory() {
+  let html = `<div class="section-hdr"><i class="ti ti-clock" style="font-size:16px; color:var(--text-secondary);" aria-hidden="true"></i><h2>My game history</h2><div class="tabs"><button class="tab hist-tab" data-t="recent">Recent</button><button class="tab hist-tab on" data-t="history">History</button></div></div>`;
+  myHistory.forEach(g => {
+    const pAvatars = g.players.map(p => `<div class="p-av" data-name="${p.n}" style="background:var(${p.bg}); color:var(${p.fg});">${p.i}</div>`).join('');
+    const resultColor = g.result === 'Won' ? 'var(--green)' : 'var(--text-secondary)';
+    html += `<div class="game-card"><div class="grid-icon ${g.gi}" style="opacity:0.6;">${g.grid.replace('×','²').replace(/².*$/,'²')}</div><div class="game-info"><h3>${g.word}</h3><div class="game-meta"><span class="tag ${g.tag}">${g.grid}${g.tag==='tag-quick'?' quick':''}</span> <span class="sep">·</span> ${g.time} <span class="sep">·</span> ${g.rules}</div><div class="player-row">${pAvatars}</div></div><div class="game-right"><div class="score-preview">${g.score}</div><span class="finished-tag" style="color:${resultColor}">${g.result} · ${g.when}</span></div></div>`;
+  });
+  return html;
+}
+
+// Save original recent HTML after first render
+let recentHTML = null;
+function initRecentTabs() {
+  const sec = document.querySelector('.recent-section');
+  if (!recentHTML) recentHTML = sec.innerHTML;
+  sec.addEventListener('click', e => {
+    const tab = e.target.closest('.hist-tab');
+    if (!tab) return;
+    const mode = tab.dataset.t;
+    if (mode === 'history') {
+      sec.innerHTML = renderHistory();
+    } else {
+      sec.innerHTML = recentHTML;
+    }
+  });
+}
+initRecentTabs();
+
+// ── Top plays with grid filter ──
 const categories = [
   { title:'Highest points', unit:'pts', entries:[
-    {p:'Sam August',v:'171'},{p:'Jonathan Lee',v:'165'},{p:'Stuart Forrest',v:'158'},
-    {p:'Jeff Babiak',v:'152'},{p:'Benjamin Dickman',v:'149'},{p:'Darren Chok',v:'144'},
-    {p:'Steven Michael',v:'141'},{p:'Isabelle Gateau',v:'136'},{p:'Phyllis Wheeler',v:'131'},
-    {p:'Valerie Vanderford',v:'127'},{p:'Malcolm Pellettier',v:'122'},{p:'Edwin Marks',v:'118'},
-    {p:'Deb F',v:'114'},{p:'Jason Taff',v:'110'},{p:'Patty Bush',v:'106'},
-    {p:'Matt Burry',v:'103',you:1},{p:'Helen Holloway',v:'99'},{p:'Cassie M',v:'95'},
-    {p:'John McVay',v:'91'},{p:'Stephanie Lowry',v:'87'}
+    {p:'Sam August',v:'171',g:'10×10',d:'8 May',t:'10:58pm'},{p:'Jonathan Lee',v:'165',g:'7×7',d:'6 May',t:'3:22pm'},{p:'Stuart Forrest',v:'158',g:'6×6',d:'5 May',t:'8:41am'},
+    {p:'Jeff Babiak',v:'152',g:'5×5',d:'4 May',t:'11:15pm'},{p:'Benjamin Dickman',v:'149',g:'4×4',d:'3 May',t:'7:03pm'},{p:'Darren Chok',v:'144',g:'10×10',d:'2 May',t:'2:47pm'},
+    {p:'Steven Michael',v:'141',g:'7×7',d:'1 May',t:'9:30am'},{p:'Isabelle Gateau',v:'136',g:'6×6',d:'28 Apr',t:'6:12pm'},{p:'Phyllis Wheeler',v:'131',g:'5×5',d:'27 Apr',t:'4:55pm'},
+    {p:'Valerie Vanderford',v:'127',g:'10×10',d:'25 Apr',t:'1:28pm'},{p:'Malcolm Pellettier',v:'122',g:'7×7',d:'24 Apr',t:'10:09am'},{p:'Edwin Marks',v:'118',g:'6×6',d:'22 Apr',t:'8:33pm'},
+    {p:'Deb F',v:'114',g:'10×10',d:'20 Apr',t:'5:17pm'},{p:'Jason Taff',v:'110',g:'5×5',d:'18 Apr',t:'12:44pm'},{p:'Patty Bush',v:'106',g:'7×7',d:'16 Apr',t:'3:56pm'},
+    {p:'Matt Burry',v:'103',you:1,g:'6×6',d:'14 Apr',t:'7:21am'},{p:'Helen Holloway',v:'99',g:'4×4',d:'12 Apr',t:'11:38pm'},{p:'Cassie M',v:'95',g:'5×5',d:'10 Apr',t:'2:05pm'},
+    {p:'John McVay',v:'91',g:'10×10',d:'8 Apr',t:'9:47pm'},{p:'Stephanie Lowry',v:'87',g:'7×7',d:'5 Apr',t:'6:30am'}
   ]},
   { title:'Biggest lead', unit:'pt lead', entries:[
-    {p:'Sam August',v:'130'},{p:'Jonathan Lee',v:'118'},{p:'Stuart Forrest',v:'112'},
-    {p:'Benjamin Dickman',v:'105'},{p:'Steven Michael',v:'98'},{p:'Jeff Babiak',v:'94'},
-    {p:'Darren Chok',v:'88'},{p:'Isabelle Gateau',v:'82'},{p:'Phyllis Wheeler',v:'76'},
-    {p:'Matt Burry',v:'71',you:1},{p:'Valerie Vanderford',v:'68'},{p:'Edwin Marks',v:'63'},
-    {p:'Malcolm Pellettier',v:'59'},{p:'Deb F',v:'55'},{p:'Helen Holloway',v:'51'},
-    {p:'Jason Taff',v:'47'},{p:'Patty Bush',v:'43'},{p:'Cassie M',v:'39'},
-    {p:'John McVay',v:'35'},{p:'Stephanie Lowry',v:'31'}
+    {p:'Sam August',v:'130',g:'10×10',d:'8 May',t:'10:58pm'},{p:'Jonathan Lee',v:'118',g:'7×7',d:'6 May',t:'3:22pm'},{p:'Stuart Forrest',v:'112',g:'10×10',d:'5 May',t:'8:41am'},
+    {p:'Benjamin Dickman',v:'105',g:'5×5',d:'4 May',t:'11:15pm'},{p:'Steven Michael',v:'98',g:'7×7',d:'3 May',t:'7:03pm'},{p:'Jeff Babiak',v:'94',g:'6×6',d:'2 May',t:'2:47pm'},
+    {p:'Darren Chok',v:'88',g:'10×10',d:'1 May',t:'9:30am'},{p:'Isabelle Gateau',v:'82',g:'6×6',d:'28 Apr',t:'6:12pm'},{p:'Phyllis Wheeler',v:'76',g:'5×5',d:'27 Apr',t:'4:55pm'},
+    {p:'Matt Burry',v:'71',you:1,g:'10×10',d:'25 Apr',t:'1:28pm'},{p:'Valerie Vanderford',v:'68',g:'7×7',d:'24 Apr',t:'10:09am'},{p:'Edwin Marks',v:'63',g:'6×6',d:'22 Apr',t:'8:33pm'},
+    {p:'Malcolm Pellettier',v:'59',g:'10×10',d:'20 Apr',t:'5:17pm'},{p:'Deb F',v:'55',g:'5×5',d:'18 Apr',t:'12:44pm'},{p:'Helen Holloway',v:'51',g:'4×4',d:'16 Apr',t:'3:56pm'},
+    {p:'Jason Taff',v:'47',g:'7×7',d:'14 Apr',t:'7:21am'},{p:'Patty Bush',v:'43',g:'4×4',d:'12 Apr',t:'11:38pm'},{p:'Cassie M',v:'39',g:'6×6',d:'10 Apr',t:'2:05pm'},
+    {p:'John McVay',v:'35',g:'5×5',d:'8 Apr',t:'9:47pm'},{p:'Stephanie Lowry',v:'31',g:'7×7',d:'5 Apr',t:'6:30am'}
   ]},
-  { title:'Longest word', unit:'letters', entries:[
-    {p:'Steven Michael',v:'14'},{p:'Edwin Marks',v:'13'},{p:'Isabelle Gateau',v:'12'},
-    {p:'Jason Taff',v:'12'},{p:'Jeff Babiak',v:'11'},{p:'Jonathan Lee',v:'11'},
-    {p:'Sam August',v:'11'},{p:'Benjamin Dickman',v:'10'},{p:'Phyllis Wheeler',v:'10'},
-    {p:'Darren Chok',v:'10'},{p:'Stuart Forrest',v:'10'},{p:'Valerie Vanderford',v:'9'},
-    {p:'Matt Burry',v:'9',you:1},{p:'Malcolm Pellettier',v:'9'},{p:'Deb F',v:'9'},
-    {p:'Helen Holloway',v:'8'},{p:'Patty Bush',v:'8'},{p:'Cassie M',v:'8'},
-    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+  { title:'Longest word', unit:'letters', sw:1, entries:[
+    {p:'Steven Michael',v:'14',w:'transformation',g:'10×10',d:'8 May',t:'10:58pm'},{p:'Edwin Marks',v:'13',w:'circumventing',g:'7×7',d:'6 May',t:'3:22pm'},{p:'Isabelle Gateau',v:'12',w:'appreciation',g:'6×6',d:'5 May',t:'8:41am'},
+    {p:'Jason Taff',v:'12',w:'disqualified',g:'5×5',d:'4 May',t:'11:15pm'},{p:'Jeff Babiak',v:'11',w:'considering',g:'4×4',d:'3 May',t:'7:03pm'},{p:'Jonathan Lee',v:'11',w:'masterfully',g:'10×10',d:'2 May',t:'2:47pm'},
+    {p:'Sam August',v:'11',w:'ographical',g:'7×7',d:'1 May',t:'9:30am'},{p:'Benjamin Dickman',v:'10',w:'birthplace',g:'6×6',d:'28 Apr',t:'6:12pm'},{p:'Phyllis Wheeler',v:'10',w:'privileged',g:'5×5',d:'27 Apr',t:'4:55pm'},
+    {p:'Darren Chok',v:'10',w:'remarkable',g:'10×10',d:'25 Apr',t:'1:28pm'},{p:'Stuart Forrest',v:'10',w:'illuminate',g:'7×7',d:'24 Apr',t:'10:09am'},{p:'Valerie Vanderford',v:'9',w:'comprised',g:'6×6',d:'22 Apr',t:'8:33pm'},
+    {p:'Matt Burry',v:'9',w:'keystroke',you:1,g:'10×10',d:'20 Apr',t:'5:17pm'},{p:'Malcolm Pellettier',v:'9',w:'reclaimed',g:'5×5',d:'18 Apr',t:'12:44pm'},{p:'Deb F',v:'9',w:'trembling',g:'7×7',d:'16 Apr',t:'3:56pm'},
+    {p:'Helen Holloway',v:'8',w:'profound',g:'6×6',d:'14 Apr',t:'7:21am'},{p:'Patty Bush',v:'8',w:'branches',g:'4×4',d:'12 Apr',t:'11:38pm'},{p:'Cassie M',v:'8',w:'gambling',g:'5×5',d:'10 Apr',t:'2:05pm'},
+    {p:'John McVay',v:'8',w:'reflects',g:'10×10',d:'8 Apr',t:'9:47pm'},{p:'Stephanie Lowry',v:'7',w:'blazing',g:'7×7',d:'5 Apr',t:'6:30am'}
   ]},
-  { title:'Best single word', unit:'pts', entries:[
-    {p:'Steven Michael',v:'15'},{p:'Jeff Babiak',v:'15'},{p:'Edwin Marks',v:'14'},
-    {p:'Isabelle Gateau',v:'14'},{p:'Jonathan Lee',v:'13'},{p:'Sam August',v:'13'},
-    {p:'Benjamin Dickman',v:'12'},{p:'Phyllis Wheeler',v:'12'},{p:'Darren Chok',v:'11'},
-    {p:'Jason Taff',v:'11'},{p:'Matt Burry',v:'11',you:1},{p:'Stuart Forrest',v:'10'},
-    {p:'Valerie Vanderford',v:'10'},{p:'Malcolm Pellettier',v:'10'},{p:'Deb F',v:'9'},
-    {p:'Helen Holloway',v:'9'},{p:'Patty Bush',v:'9'},{p:'Cassie M',v:'8'},
-    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+  { title:'Best single word', unit:'pts', sw:1, entries:[
+    {p:'Steven Michael',v:'15',w:'quintessential',g:'10×10',d:'8 May',t:'10:58pm'},{p:'Jeff Babiak',v:'15',w:'acknowledged',g:'7×7',d:'6 May',t:'3:22pm'},{p:'Edwin Marks',v:'14',w:'neighbouring',g:'6×6',d:'5 May',t:'8:41am'},
+    {p:'Isabelle Gateau',v:'14',w:'overwhelming',g:'10×10',d:'4 May',t:'11:15pm'},{p:'Jonathan Lee',v:'13',w:'breakpoints',g:'5×5',d:'3 May',t:'7:03pm'},{p:'Sam August',v:'13',w:'atmospheric',g:'7×7',d:'2 May',t:'2:47pm'},
+    {p:'Benjamin Dickman',v:'12',w:'handwriting',g:'6×6',d:'1 May',t:'9:30am'},{p:'Phyllis Wheeler',v:'12',w:'marketplace',g:'10×10',d:'28 Apr',t:'6:12pm'},{p:'Darren Chok',v:'11',w:'birthplace',g:'5×5',d:'27 Apr',t:'4:55pm'},
+    {p:'Jason Taff',v:'11',w:'frequencies',g:'7×7',d:'25 Apr',t:'1:28pm'},{p:'Matt Burry',v:'11',w:'springboard',you:1,g:'10×10',d:'24 Apr',t:'10:09am'},{p:'Stuart Forrest',v:'10',w:'transplant',g:'6×6',d:'22 Apr',t:'8:33pm'},
+    {p:'Valerie Vanderford',v:'10',w:'nightshade',g:'5×5',d:'20 Apr',t:'5:17pm'},{p:'Malcolm Pellettier',v:'10',w:'blundering',g:'10×10',d:'18 Apr',t:'12:44pm'},{p:'Deb F',v:'9',w:'comprised',g:'7×7',d:'16 Apr',t:'3:56pm'},
+    {p:'Helen Holloway',v:'9',w:'strengths',g:'4×4',d:'14 Apr',t:'7:21am'},{p:'Patty Bush',v:'9',w:'trembling',g:'6×6',d:'12 Apr',t:'11:38pm'},{p:'Cassie M',v:'8',w:'branches',g:'5×5',d:'10 Apr',t:'2:05pm'},
+    {p:'John McVay',v:'8',w:'gambling',g:'10×10',d:'8 Apr',t:'9:47pm'},{p:'Stephanie Lowry',v:'7',w:'blazing',g:'7×7',d:'5 Apr',t:'6:30am'}
   ]},
   { title:'Most words', unit:'words', entries:[
-    {p:'Sam August',v:'19'},{p:'Darren Chok',v:'18'},{p:'Jonathan Lee',v:'17'},
-    {p:'Jeff Babiak',v:'16'},{p:'Benjamin Dickman',v:'15'},{p:'Deb F',v:'15'},
-    {p:'Stuart Forrest',v:'14'},{p:'Steven Michael',v:'14'},{p:'Isabelle Gateau',v:'13'},
-    {p:'Phyllis Wheeler',v:'13'},{p:'Valerie Vanderford',v:'12'},{p:'Matt Burry',v:'12',you:1},
-    {p:'Edwin Marks',v:'11'},{p:'Malcolm Pellettier',v:'11'},{p:'Jason Taff',v:'10'},
-    {p:'Patty Bush',v:'10'},{p:'Helen Holloway',v:'9'},{p:'Cassie M',v:'9'},
-    {p:'John McVay',v:'8'},{p:'Stephanie Lowry',v:'7'}
+    {p:'Sam August',v:'19',g:'10×10',d:'8 May',t:'10:58pm'},{p:'Darren Chok',v:'18',g:'7×7',d:'6 May',t:'3:22pm'},{p:'Jonathan Lee',v:'17',g:'10×10',d:'5 May',t:'8:41am'},
+    {p:'Jeff Babiak',v:'16',g:'6×6',d:'4 May',t:'11:15pm'},{p:'Benjamin Dickman',v:'15',g:'5×5',d:'3 May',t:'7:03pm'},{p:'Deb F',v:'15',g:'10×10',d:'2 May',t:'2:47pm'},
+    {p:'Stuart Forrest',v:'14',g:'7×7',d:'1 May',t:'9:30am'},{p:'Steven Michael',v:'14',g:'6×6',d:'28 Apr',t:'6:12pm'},{p:'Isabelle Gateau',v:'13',g:'10×10',d:'27 Apr',t:'4:55pm'},
+    {p:'Phyllis Wheeler',v:'13',g:'5×5',d:'25 Apr',t:'1:28pm'},{p:'Valerie Vanderford',v:'12',g:'7×7',d:'24 Apr',t:'10:09am'},{p:'Matt Burry',v:'12',you:1,g:'10×10',d:'22 Apr',t:'8:33pm'},
+    {p:'Edwin Marks',v:'11',g:'6×6',d:'20 Apr',t:'5:17pm'},{p:'Malcolm Pellettier',v:'11',g:'5×5',d:'18 Apr',t:'12:44pm'},{p:'Jason Taff',v:'10',g:'7×7',d:'16 Apr',t:'3:56pm'},
+    {p:'Patty Bush',v:'10',g:'4×4',d:'14 Apr',t:'7:21am'},{p:'Helen Holloway',v:'9',g:'10×10',d:'12 Apr',t:'11:38pm'},{p:'Cassie M',v:'9',g:'6×6',d:'10 Apr',t:'2:05pm'},
+    {p:'John McVay',v:'8',g:'5×5',d:'8 Apr',t:'9:47pm'},{p:'Stephanie Lowry',v:'7',g:'7×7',d:'5 Apr',t:'6:30am'}
   ]}
 ];
-const rc = i => i===0?'gold':i===1?'silver':i===2?'bronze':'';
-let h = '';
-categories.forEach(cat => {
-  const t = cat.entries[0];
-  h += `<div class="record-category"><div class="rec-header" onclick="this.parentElement.classList.toggle('open')"><div class="rec-title">${cat.title}</div><div class="rec-top"><span class="rv">${t.v}</span><span class="ru">${cat.unit}</span><span class="rb">${t.p}</span></div><i class="ti ti-chevron-down expand-icon"></i></div><div class="rec-list">`;
-  cat.entries.forEach((e,i) => {
-    h += `<div class="rec-row"><div class="rec-rank ${rc(i)}">${i+1}</div><div class="rec-player"><a href="#">${e.p}</a>${e.you?'<span class="rec-you">You</span>':''}</div><div class="rec-score">${e.v} ${cat.unit}</div></div>`;
+
+const rkc = i => i===0?'gold':i===1?'silver':i===2?'bronze':'';
+
+function renderRecords(filter) {
+  const isAll = !filter || filter === 'All';
+  let h = '';
+  categories.forEach(cat => {
+    const filtered = isAll ? cat.entries : cat.entries.filter(e => e.g === filter);
+    if (filtered.length === 0) return;
+    const t = filtered[0];
+    const tw = cat.sw && t.w ? ` <span class="rec-word">"${t.w}"</span>` : '';
+    const titleSuffix = isAll ? '' : ` ${filter}`;
+    h += `<div class="record-category"><div class="rec-header" onclick="this.parentElement.classList.toggle('open')"><div class="rec-title">${cat.title}${titleSuffix}</div><div class="rec-top"><span class="rv">${t.v}</span><span class="ru">${cat.unit}</span><span class="rb">${t.p}${tw}</span></div><i class="ti ti-chevron-down expand-icon"></i></div><div class="rec-list">`;
+    filtered.forEach((e,i) => {
+      const you = e.you ? '<span class="rec-you">You</span>' : '';
+      let parts = [];
+      if (cat.sw && e.w) parts.push(`<span class="rec-word">"${e.w}"</span>`);
+      if (isAll) parts.push(`<span class="rec-grid">${e.g}</span>`);
+      parts.push(`<span class="rec-date">${e.d} at ${e.t}</span>`);
+      parts.push(`<a href="#" class="rec-view">View game →</a>`);
+      const detail = parts.join('<span class="sep">·</span>');
+      h += `<div class="rec-row"><div class="rec-rank ${rkc(i)}">${i+1}</div><div class="rec-main"><div class="rec-name">${e.p}${you}</div><div class="rec-detail">${detail}</div></div><div class="rec-score">${e.v} ${cat.unit}</div></div>`;
+    });
+    h += '</div></div>';
   });
-  h += '</div></div>';
+  document.getElementById('records-container').innerHTML = h;
+}
+
+// Initial render
+renderRecords('All');
+
+// Wire up grid filter tabs
+const topPlaysSection = document.getElementById('records-container').closest('.section');
+topPlaysSection.addEventListener('click', e => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  topPlaysSection.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  tab.classList.add('on');
+  renderRecords(tab.textContent.trim());
 });
-document.getElementById('records-container').innerHTML = h;
 
 // Tooltip system for player avatars
 const tip = document.createElement('div');
