@@ -124,7 +124,9 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
 .tag-normal { background: var(--blue-bg); color: var(--blue); }
 
 .player-row { display: flex; align-items: center; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
-.p-av { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; border: 2px solid var(--bg-card); }
+.p-av { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; border: 2px solid var(--bg-card); position: relative; cursor: default; }
+.p-av[data-name]:hover::after { content: attr(data-name); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--text-primary); color: var(--bg-page); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; white-space: nowrap; z-index: 10; pointer-events: none; }
+.p-av[data-name]:hover::before { content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: var(--text-primary); z-index: 10; pointer-events: none; }
 .p-name { font-size: 12px; color: var(--text-secondary); margin-left: 4px; }
 .p-you { font-size: 10px; background: var(--purple-bg); color: var(--purple); padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 4px; }
 
@@ -239,12 +241,12 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
         <span class="tag tag-normal">10×10</span> <span class="sep">·</span> 4 min <span class="sep">·</span> 8+ letters <span class="sep">·</span> 1pt penalty <span class="sep">·</span> original word count
       </div>
       <div class="player-row">
-        <div class="p-av" style="background:var(--coral-bg); color:var(--coral);">MP</div>
-        <div class="p-av" style="background:var(--green-bg); color:var(--green-text);">SA</div>
-        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">PM</div>
-        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">HH</div>
-        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">JM</div>
-        <div class="p-av" style="background:var(--amber-bg); color:var(--amber);">MB</div>
+        <div class="p-av" data-name="Malcolm Pellettier" style="background:var(--coral-bg); color:var(--coral);">MP</div>
+        <div class="p-av" data-name="Sam August" style="background:var(--green-bg); color:var(--green-text);">SA</div>
+        <div class="p-av" data-name="Paul M" style="background:var(--purple-bg); color:var(--purple);">PM</div>
+        <div class="p-av" data-name="Helen Holloway" style="background:var(--pink-bg); color:var(--pink);">HH</div>
+        <div class="p-av" data-name="John McVay" style="background:var(--blue-bg); color:var(--blue);">JM</div>
+        <div class="p-av" data-name="Matt Burry (you)" style="background:var(--amber-bg); color:var(--amber);">MB</div>
         <span class="p-you">You're in</span>
       </div>
     </div>
@@ -262,7 +264,7 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
         <span class="tag tag-normal">6×6</span> <span class="sep">·</span> 3 min <span class="sep">·</span> 5+ letters <span class="sep">·</span> no penalty
       </div>
       <div class="player-row">
-        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">SL</div>
+        <div class="p-av" data-name="Stephanie Lowry" style="background:var(--blue-bg); color:var(--blue);">SL</div>
         <span class="p-name">Stephanie Lowry</span>
       </div>
     </div>
@@ -291,8 +293,8 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
         <span class="tag tag-quick">7×7 quick</span> <span class="sep">·</span> 45 sec <span class="sep">·</span> 6+ letters
       </div>
       <div class="player-row">
-        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">VV</div>
-        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">PW</div>
+        <div class="p-av" data-name="Valerie Vanderford" style="background:var(--purple-bg); color:var(--purple);">VV</div>
+        <div class="p-av" data-name="Phyllis Wheeler" style="background:var(--pink-bg); color:var(--pink);">PW</div>
       </div>
     </div>
     <div class="game-right">
@@ -309,9 +311,9 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
         <span class="tag tag-normal">10×10</span> <span class="sep">·</span> 4 min <span class="sep">·</span> 8+ letters <span class="sep">·</span> 1pt penalty
       </div>
       <div class="player-row">
-        <div class="p-av" style="background:var(--green-bg); color:var(--green-text);">SA</div>
-        <div class="p-av" style="background:var(--blue-bg); color:var(--blue);">JM</div>
-        <div class="p-av" style="background:var(--coral-bg); color:var(--coral);">CM</div>
+        <div class="p-av" data-name="Sam August" style="background:var(--green-bg); color:var(--green-text);">SA</div>
+        <div class="p-av" data-name="John McVay" style="background:var(--blue-bg); color:var(--blue);">JM</div>
+        <div class="p-av" data-name="Cassie M" style="background:var(--coral-bg); color:var(--coral);">CM</div>
         <span class="p-name">+3 more</span>
       </div>
     </div>
@@ -329,8 +331,8 @@ body { font-family: var(--font); background: var(--bg-page); color: var(--text-p
         <span class="tag tag-quick">7×7 quick</span> <span class="sep">·</span> 45 sec <span class="sep">·</span> 6+ letters
       </div>
       <div class="player-row">
-        <div class="p-av" style="background:var(--purple-bg); color:var(--purple);">VV</div>
-        <div class="p-av" style="background:var(--pink-bg); color:var(--pink);">PW</div>
+        <div class="p-av" data-name="Valerie Vanderford" style="background:var(--purple-bg); color:var(--purple);">VV</div>
+        <div class="p-av" data-name="Phyllis Wheeler" style="background:var(--pink-bg); color:var(--pink);">PW</div>
       </div>
     </div>
     <div class="game-right">
@@ -418,6 +420,33 @@ categories.forEach(cat => {
   h += '</div></div>';
 });
 document.getElementById('records-container').innerHTML = h;
+
+// Tooltip system for player avatars
+const tip = document.createElement('div');
+tip.id = 'av-tooltip';
+tip.style.cssText = 'position:fixed;background:#1a1a1a;color:#f5f4f1;font-size:12px;font-weight:500;padding:5px 12px;border-radius:6px;pointer-events:none;z-index:9999;opacity:0;transition:opacity 0.15s;font-family:-apple-system,BlinkMacSystemFont,sans-serif;white-space:nowrap;';
+document.body.appendChild(tip);
+const arrow = document.createElement('div');
+arrow.style.cssText = 'position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;';
+tip.appendChild(arrow);
+const tipText = document.createTextNode('');
+tip.insertBefore(tipText, arrow);
+
+document.addEventListener('mouseover', e => {
+  const av = e.target.closest('.p-av[data-name]');
+  if (av) {
+    tipText.textContent = av.getAttribute('data-name');
+    const rect = av.getBoundingClientRect();
+    tip.style.opacity = '1';
+    requestAnimationFrame(() => {
+      tip.style.left = (rect.left + rect.width/2 - tip.offsetWidth/2) + 'px';
+      tip.style.top = (rect.top - tip.offsetHeight - 8) + 'px';
+    });
+  }
+});
+document.addEventListener('mouseout', e => {
+  if (e.target.closest('.p-av[data-name]')) tip.style.opacity = '0';
+});
 </script>
 
 <div class="news-callout">
