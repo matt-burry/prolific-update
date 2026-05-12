@@ -1,0 +1,244 @@
+
+<h2 class="sr-only">Redesigned homepage mockup for prolific.games with improved information architecture and prominent active games</h2>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.pg { font-family: var(--font-sans); color: var(--color-text-primary); max-width: 680px; padding: 1rem 0; }
+.nav { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 24px; }
+.logo { font-size: 22px; font-weight: 500; color: var(--color-text-primary); letter-spacing: -0.5px; }
+.logo i { color: #639922; margin-right: 4px; font-size: 20px; }
+.nav-links { display: flex; gap: 12px; margin-left: auto; }
+.nav-links a { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 4px 8px; border-radius: var(--border-radius-md); }
+.nav-links a:hover { background: var(--color-background-secondary); }
+.nav-links a.active { color: var(--color-text-primary); font-weight: 500; }
+.user-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); padding: 4px 10px; border: 0.5px solid var(--color-border-tertiary); border-radius: 20px; }
+.user-pill .avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--color-background-info); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--color-text-info); }
+
+.hero-banner { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; }
+.hero-text h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+.hero-text p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.5; }
+.watchword { display: inline-flex; align-items: center; gap: 6px; background: #EAF3DE; color: #3B6D11; padding: 6px 14px; border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; letter-spacing: 2px; margin-top: 8px; }
+.daily-badge { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 3px 8px; border-radius: var(--border-radius-md); font-weight: 500; }
+
+.section-label { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.section-label .count { background: var(--color-background-info); color: var(--color-text-info); font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+.live-dot { width: 8px; height: 8px; background: #639922; border-radius: 50%; display: inline-block; animation: pulse 2s ease infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.game-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 10px; display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center; cursor: pointer; transition: border-color 0.15s; }
+.game-card:hover { border-color: var(--color-border-secondary); }
+.game-card.featured { border: 2px solid var(--color-border-info); }
+.grid-preview { width: 56px; height: 56px; border-radius: 8px; display: grid; gap: 1px; padding: 4px; position: relative; }
+.grid-6 { grid-template-columns: repeat(6,1fr); grid-template-rows: repeat(6,1fr); background: #EEEDFE; }
+.grid-7 { grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(7,1fr); background: #E6F1FB; }
+.grid-10 { grid-template-columns: repeat(5,1fr); grid-template-rows: repeat(5,1fr); background: #FAECE7; }
+.grid-cell { background: rgba(255,255,255,0.7); border-radius: 1px; font-size: 5px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
+.game-info h3 { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+.game-meta { font-size: 12px; color: var(--color-text-secondary); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.game-meta .sep { color: var(--color-border-secondary); }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-weight: 500; }
+.tag-quick { background: #FCEBEB; color: #A32D2D; }
+.tag-normal { background: #E6F1FB; color: #185FA5; }
+.tag-waiting { background: #EAF3DE; color: #3B6D11; }
+.players { display: flex; align-items: center; }
+.players .p-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--color-background-primary); margin-left: -8px; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--color-text-secondary); overflow: hidden; }
+.players .p-avatar:first-child { margin-left: 0; }
+.players .p-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.join-btn { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); cursor: pointer; white-space: nowrap; }
+.join-btn:hover { background: var(--color-background-secondary); }
+.join-btn.primary { background: #639922; color: #fff; border-color: #639922; }
+.join-btn.primary:hover { background: #3B6D11; }
+
+.in-progress { opacity: 0.75; }
+.in-progress .game-info h3 { font-size: 14px; }
+
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+.stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; text-align: center; }
+.stat-card .val { font-size: 20px; font-weight: 500; }
+.stat-card .lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.stat-card .by { font-size: 11px; color: var(--color-text-info); margin-top: 4px; }
+
+.news-box { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 16px 20px; margin-bottom: 24px; }
+.news-box h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.news-box p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+.records-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.records-tabs button { font-size: 12px; padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: transparent; color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-sans); }
+.records-tabs button.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+
+.records-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rec { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+.rec .rec-val { font-size: 20px; font-weight: 500; }
+.rec .rec-unit { font-size: 12px; color: var(--color-text-secondary); }
+.rec .rec-lbl { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.rec .rec-by { font-size: 12px; color: var(--color-text-info); margin-top: 4px; }
+
+.footer { border-top: 0.5px solid var(--color-border-tertiary); padding-top: 16px; margin-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-tertiary); }
+</style>
+
+<div class="pg">
+
+<nav class="nav">
+  <div class="logo"><i class="ti ti-letter-p" aria-hidden="true"></i>Prolific</div>
+  <div class="nav-links">
+    <a href="#" class="active">Games</a>
+    <a href="#">Tournaments</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Rules</a>
+    <a href="#">FAQ</a>
+  </div>
+  <div class="user-pill">
+    <div class="avatar">MB</div>
+    Matt
+  </div>
+</nav>
+
+<div class="hero-banner">
+  <div class="hero-text">
+    <h1>Find words. Outscore everyone.</h1>
+    <p>Build English words from adjacent letters in a grid. Longer words score more. Today's watchword:</p>
+    <div class="watchword"><i class="ti ti-sparkles" style="font-size:14px" aria-hidden="true"></i> MANIFOLD</div>
+  </div>
+  <div style="margin-left:auto; text-align:right;">
+    <span class="daily-badge"><i class="ti ti-calendar" style="font-size:12px" aria-hidden="true"></i> Daily special</span>
+    <p style="font-size:12px; color:var(--color-text-secondary); margin-top:6px;">Submit your own recipe →</p>
+  </div>
+</div>
+
+<div class="section-label"><span class="live-dot"></span> Open games — join now <span class="count">3 waiting</span></div>
+
+<div class="game-card featured">
+  <div class="grid-preview grid-6"></div>
+  <div class="game-info">
+    <h3>deforces</h3>
+    <div class="game-meta">
+      <span class="tag tag-normal">6×6</span>
+      <span class="sep">·</span> 3 min
+      <span class="sep">·</span> 5+ letters
+      <span class="sep">·</span> no penalty
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
+      <div class="p-avatar" style="background:#E6F1FB; color:#185FA5;">SL</div>
+    </div>
+    <button class="join-btn primary">Join game</button>
+  </div>
+</div>
+
+<div class="game-card featured">
+  <div class="grid-preview grid-7"></div>
+  <div class="game-info">
+    <h3>decorates</h3>
+    <div class="game-meta">
+      <span class="tag tag-quick">7×7 quick</span>
+      <span class="sep">·</span> 45 sec
+      <span class="sep">·</span> 6+ letters
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
+      <div class="p-avatar" style="background:#EEEDFE; color:#534AB7;">VV</div>
+    </div>
+    <button class="join-btn primary">Join game</button>
+  </div>
+</div>
+
+<div class="game-card featured">
+  <div class="grid-preview grid-10"></div>
+  <div class="game-info">
+    <h3>railroaded</h3>
+    <div class="game-meta">
+      <span class="tag tag-normal">10×10</span>
+      <span class="sep">·</span> 4 min
+      <span class="sep">·</span> 8+ letters
+      <span class="sep">·</span> 1pt penalty
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div class="players" style="justify-content:flex-end; margin-bottom:6px;">
+      <div class="p-avatar" style="background:#FAECE7; color:#993C1D;">MP</div>
+      <div class="p-avatar" style="background:#EAF3DE; color:#3B6D11;">CM</div>
+      <div class="p-avatar" style="background:#FAEEDA; color:#854F0B;">SA</div>
+      <div class="p-avatar" style="background:#FBEAF0; color:#993556;">HH</div>
+      <div class="p-avatar" style="background:#E6F1FB; color:#185FA5;">+2</div>
+    </div>
+    <button class="join-btn primary">Join game</button>
+  </div>
+</div>
+
+<div style="margin-top: 24px;"></div>
+<div class="section-label"><i class="ti ti-clock" style="font-size:15px" aria-hidden="true"></i> In progress</div>
+
+<div class="game-card in-progress">
+  <div class="grid-preview grid-10" style="opacity:0.6;"></div>
+  <div class="game-info">
+    <h3>hatlessnesses</h3>
+    <div class="game-meta">
+      <span class="tag tag-normal">10×10</span>
+      <span class="sep">·</span> 4 min
+      <span class="sep">·</span> 8+ letters
+      <span class="sep">·</span> 6 players
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div style="font-size:13px; font-weight:500;">PW leads — 19 pts</div>
+    <div style="font-size:11px; color:var(--color-text-secondary); margin-top:2px;">GW 16 · VV 8 · MP 5</div>
+    <button class="join-btn" style="margin-top:6px;">Watch</button>
+  </div>
+</div>
+
+<div style="margin-top: 28px;"></div>
+<div class="section-label"><i class="ti ti-trophy" style="font-size:15px" aria-hidden="true"></i> Top plays this month</div>
+
+<div class="records-tabs">
+  <button class="sel">All</button>
+  <button>Quick</button>
+  <button>10×10</button>
+  <button>3D</button>
+  <button>4×4</button>
+  <button>5×5</button>
+  <button>6×6</button>
+  <button>7×7</button>
+</div>
+
+<div class="records-grid">
+  <div class="rec">
+    <div><span class="rec-val">127</span> <span class="rec-unit">points</span></div>
+    <div class="rec-lbl">Highest points</div>
+    <div class="rec-by">Stuart Forrest</div>
+  </div>
+  <div class="rec">
+    <div><span class="rec-val">108</span> <span class="rec-unit">pts lead</span></div>
+    <div class="rec-lbl">Biggest lead</div>
+    <div class="rec-by">Stuart Forrest</div>
+  </div>
+  <div class="rec">
+    <div><span class="rec-val">14</span> <span class="rec-unit">letters</span></div>
+    <div class="rec-lbl">Longest word</div>
+    <div class="rec-by">Steven Michael</div>
+  </div>
+  <div class="rec">
+    <div><span class="rec-val">15</span> <span class="rec-unit">points</span></div>
+    <div class="rec-lbl">Highest scoring word</div>
+    <div class="rec-by">Steven Michael</div>
+  </div>
+  <div class="rec">
+    <div><span class="rec-val">15</span> <span class="rec-unit">words</span></div>
+    <div class="rec-lbl">Most words</div>
+    <div class="rec-by">Deb F</div>
+  </div>
+</div>
+
+<div style="margin-top: 24px;"></div>
+<div class="news-box">
+  <h3><i class="ti ti-speakerphone" style="font-size:15px; margin-right:6px;" aria-hidden="true"></i>What's new</h3>
+  <p>Design your own game recipe and have it featured as the daily special for all players. Also try spotting the watchword in your games — find it to earn a mention and pick the next one. Details in the FAQ.</p>
+</div>
+
+<div class="footer">
+  <span>Prolific — word games for wordsmiths</span>
+  <span><a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">Donate</a> · <a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">Forum</a> · <a href="#" style="color:var(--color-text-tertiary); text-decoration:none;">FAQ</a></span>
+</div>
+
+</div>
